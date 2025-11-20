@@ -312,7 +312,13 @@ minikube tunnel
 
 #### Шаг 3
 
-Добавьте сюда скриншота вывода при вызове https://cinemaabyss.example.com/api/movies и скриншот вывода event-service после вызова тестов.
+##### Вызов http://cinemaabyss.example.com/api/movies (ingress не настроен для работы с ssl)
+
+![Movies](./static/task3_curl_response.png)
+
+##### Вывод event-service после вызова тестов
+
+![Events](./static/task3_kafka_topics.png)
 
 ## Задание 4
 

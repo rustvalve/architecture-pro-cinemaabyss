@@ -5,7 +5,7 @@ global:
 
 # Image pull secrets
 imagePullSecrets:
-  dockerconfigjson: ewoJImF1dGhzIjogewoJCSJnaGNyLmlvIjogewoJCQkiYXV0aCI6
+  dockerconfigjson: ewogICJhdXRocyI6IHsKICAgICJnaGNyLmlvIjogewogICAgICAiYXV0aCI6ICJjblZ6ZEhaaGJIWmxPbWRvY0Y5SVVubE9TalZEVjFKa2IxRllOakJYWWt0eE5uTm1la2xEU2treWVXZ3pkazA0Y1ZnPSIKICAgIH0KICB9LAogICJjdXJyZW50Q29udGV4dCI6ICJwb2RtYW4iLAogICJjbGlQbHVnaW5zRXh0cmFEaXJzIjogWyIvb3B0L2hvbWVicmV3L2xpYi9kb2NrZXIvY2xpLXBsdWdpbnMiXQp9Cg==
 # Database configuration
 database:
   host: postgres
@@ -33,7 +33,7 @@ database:
 monolith:
   enabled: true
   image:
-    repository: ghcr.io/db-exp/cinemaabysstest/monolith
+    repository: ghcr.io/rustvalve/architecture-pro-cinemaabyss/monolith
     tag: latest
     pullPolicy: Always
   replicas: 1
@@ -45,6 +45,7 @@ monolith:
       cpu: 100m
       memory: 128Mi
   service:
+    name: monolith
     port: 8080
     targetPort: 8080
     type: ClusterIP
@@ -53,7 +54,7 @@ monolith:
 proxyService:
   enabled: true
   image:
-    repository: ghcr.io/db-exp/cinemaabysstest/proxy-service
+    repository: ghcr.io/rustvalve/architecture-pro-cinemaabyss/proxy-service
     tag: latest
     pullPolicy: Always
   replicas: 1
@@ -73,7 +74,7 @@ proxyService:
 moviesService:
   enabled: true
   image:
-    repository: ghcr.io/db-exp/cinemaabysstest/movies-service
+    repository: ghcr.io/rustvalve/architecture-pro-cinemaabyss/movies-service
     tag: latest
     pullPolicy: Always
   replicas: 1
@@ -85,6 +86,7 @@ moviesService:
       cpu: 100m
       memory: 128Mi
   service:
+    name: movies-service
     port: 8081
     targetPort: 8081
     type: ClusterIP
@@ -93,7 +95,7 @@ moviesService:
 eventsService:
   enabled: true
   image:
-    repository: ghcr.io/db-exp/cinemaabysstest/events-service
+    repository: ghcr.io/rustvalve/architecture-pro-cinemaabyss/events-service
     tag: latest
     pullPolicy: Always
   replicas: 1
@@ -105,6 +107,7 @@ eventsService:
       cpu: 100m
       memory: 128Mi
   service:
+    name: events-service
     port: 8082
     targetPort: 8082
     type: ClusterIP
@@ -114,7 +117,7 @@ kafka:
   enabled: true
   image:
     repository: wurstmeister/kafka
-    tag: 2.13-2.7.0
+    tag: 2.13-2.8.1
     pullPolicy: IfNotPresent
   replicas: 1
   resources:
@@ -143,8 +146,8 @@ kafka:
 zookeeper:
   enabled: true
   image:
-    repository: wurstmeister/zookeeper
-    tag: latest
+    repository: zookeeper
+    tag: 3.5.9
     pullPolicy: IfNotPresent
   replicas: 1
   resources:

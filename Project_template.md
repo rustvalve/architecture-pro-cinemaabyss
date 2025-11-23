@@ -482,6 +482,14 @@ You can see 21 for the upstream_rq_pending_overflow value which means 21 calls s
 
 Приложите скриншот работы circuit breaker'а
 
+##### Логи
+
+![Circuit Breaker logs](./static/task5_logs.png)
+
+##### Статистика
+
+![Circuit Breaker stats](./static/task5_stats.png)
+
 Удаляем все
 
 ```bash

@@ -1,0 +1,68 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title CinemaAbyss Container Diagram
+
+Person(User, "User", "CinemaAbyss user")
+
+System_Boundary(CinemaAbyssSystem, "CinemaAbyss System") {
+  Container(WebApplication, "Web Application", "React", "Web interface for CinemaAbyss management")
+  Container(ProxyService, "Proxy Service", "Go", "Proxy service (API Gateway) for the system")
+
+  System_Boundary(UserManagement, "User Management System") {
+    Container(UserService, "User Service", "Go", "User management and authentication")
+    ContainerDb(UserDb, "User DB", "PostgreSQL", "User data")
+  }
+
+  System_Boundary(MoviesManagement, "Movies Management System") {
+    Container(MoviesService, "Movies Service", "Go", "Movies management and catalog")
+    ContainerDb(MoviesDb, "Movies DB", "PostgreSQL", "Movies data")
+  }
+
+  System_Boundary(PaymentManagement, "Payment Management System") {
+    Container(PaymentService, "Payment Service", "Go", "Payment management and processing")
+    ContainerDb(PaymentDb, "Payment DB", "PostgreSQL", "Payment data")
+  }
+
+  System_Boundary(SubscriptionManagement, "Subscription Management System") {
+    Container(SubscriptionService, "Subscription Service", "Go", "Subscription management and processing")
+    ContainerDb(SubscriptionDb, "Subscription DB", "PostgreSQL", "Subscription data")
+  }
+
+  System_Boundary(RecommendationsManagement, "Recommendations Management System") {
+    Container(RecommendationsService, "Recommendations Service", "Go", "Recommendations for users")
+    ContainerDb(RecommendationsDb, "Recommendations DB", "PostgreSQL", "Recommendations data")
+  }
+
+  Container(EventBusService, "Event Bus Service", "Apache Kafka", "Asynchronous communication between services")
+}
+
+System_Ext(Recommendations, "Recommendations System", "Recommendations for users")
+
+
+Rel(User, WebApplication, "Uses", "HTTPS")
+Rel(WebApplication, ProxyService, "Uses", "HTTPS")
+
+' ACL service to services
+Rel(ProxyService, UserService, "Authentication and registration request", "HTTPS")
+Rel(ProxyService, MoviesService, "Movies data request", "HTTPS")
+Rel(ProxyService, PaymentService, "Payment request", "HTTPS")
+Rel(ProxyService, SubscriptionService, "Subscription status", "HTTPS")
+Rel(ProxyService, RecommendationsService, "Recommendations data request", "HTTPS")
+
+' Database connections
+Rel(UserService, UserDb, "Reads/Writes", "SQL")
+Rel(MoviesService, MoviesDb, "Reads/Writes", "SQL")
+Rel(PaymentService, PaymentDb, "Reads/Writes", "SQL")
+Rel(SubscriptionService, SubscriptionDb, "Reads/Writes", "SQL")
+Rel(RecommendationsService, RecommendationsDb, "Reads/Writes", "SQL")
+
+Rel(RecommendationsService, Recommendations, "Gets recommendations", "RabbitMQ")
+
+' Event bus connections
+Rel(PaymentService, SubscriptionService, "Payment is completed event", "Kafka")
+Rel(SubscriptionService, MoviesService, "Update user subscription status (denormalization)", "Kafka")
+
+SHOW_LEGEND()
+
+@enduml

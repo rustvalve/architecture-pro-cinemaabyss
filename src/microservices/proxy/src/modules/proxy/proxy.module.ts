@@ -5,6 +5,8 @@ import { ProxyService } from './proxy.service';
 import { MoviesProxyService } from './services/movies-proxy.service';
 import { EventsProxyService } from './services/events-proxy.service';
 import { UsersProxyService } from './services/users-proxy.service';
+import { PaymentsProxyService } from './services/payments-proxy.service';
+import { SubscriptionsProxyService } from './services/subscriptions-proxy.service';
 
 @Module({
   imports: [
@@ -19,6 +21,8 @@ import { UsersProxyService } from './services/users-proxy.service';
     MoviesProxyService,
     EventsProxyService,
     UsersProxyService,
+    PaymentsProxyService,
+    SubscriptionsProxyService,
   ],
 })
 export class ProxyModule {}

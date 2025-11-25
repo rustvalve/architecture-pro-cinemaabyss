@@ -12,6 +12,8 @@ import {
 import { MoviesProxyService } from 'src/modules/proxy/services/movies-proxy.service';
 import { EventsProxyService } from 'src/modules/proxy/services/events-proxy.service';
 import { UsersProxyService } from 'src/modules/proxy/services/users-proxy.service';
+import { PaymentsProxyService } from 'src/modules/proxy/services/payments-proxy.service';
+import { SubscriptionsProxyService } from 'src/modules/proxy/services/subscriptions-proxy.service';
 
 @Controller('api')
 export class ProxyController {
@@ -19,6 +21,8 @@ export class ProxyController {
     private readonly moviesProxyService: MoviesProxyService,
     private readonly eventsProxyService: EventsProxyService,
     private readonly usersProxyService: UsersProxyService,
+    private readonly paymentsProxyService: PaymentsProxyService,
+    private readonly subscriptionsProxyService: SubscriptionsProxyService,
   ) {}
 
   @Get('movies')
@@ -92,5 +96,35 @@ export class ProxyController {
   @Delete('users/:id')
   async deleteUser(@Param('id') id: string, @Headers() headers: any) {
     return this.usersProxyService.deleteUser(id, headers);
+  }
+
+  @Get('payments')
+  async getPayments(@Query() query: any, @Headers() headers: any) {
+    return this.paymentsProxyService.getPayments(query, headers);
+  }
+
+  @Get('payments/:id')
+  async getPaymentById(@Param('id') id: string, @Headers() headers: any) {
+    return this.paymentsProxyService.getPaymentById(id, headers);
+  }
+
+  @Post('payments')
+  async createPayment(@Body() body: any, @Headers() headers: any) {
+    return this.paymentsProxyService.createPayment(body, headers);
+  }
+
+  @Get('subscriptions')
+  async getSubscriptions(@Query() query: any, @Headers() headers: any) {
+    return this.subscriptionsProxyService.getSubscriptions(query, headers);
+  }
+
+  @Get('subscriptions/:id')
+  async getSubscriptionById(@Param('id') id: string, @Headers() headers: any) {
+    return this.subscriptionsProxyService.getSubscriptionById(id, headers);
+  }
+
+  @Post('subscriptions')
+  async createSubscription(@Body() body: any, @Headers() headers: any) {
+    return this.subscriptionsProxyService.createSubscription(body, headers);
   }
 }

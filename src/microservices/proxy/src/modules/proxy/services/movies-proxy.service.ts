@@ -49,6 +49,25 @@ export class MoviesProxyService {
     }
   }
 
+  async getMoviesHealth(headers: any) {
+    try {
+      const targetUrl = this.proxyService.getMoviesServiceUrl();
+      const url = `${targetUrl}/api/movies/health`;
+
+      this.logger.debug(`Proxying GET ${url}`);
+
+      const response = await firstValueFrom(
+        this.httpService.get(url, {
+          headers: this.filterHeaders(headers),
+        }),
+      );
+
+      return response.data;
+    } catch (error: any) {
+      this.handleError(error);
+    }
+  }
+
   async getMovieById(id: string, headers: any) {
     try {
       const targetUrl = this.getTargetUrl();

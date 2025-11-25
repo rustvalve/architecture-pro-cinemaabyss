@@ -25,6 +25,11 @@ export class ProxyController {
     private readonly subscriptionsProxyService: SubscriptionsProxyService,
   ) {}
 
+  @Get('movies/health')
+  async getMoviesHealth(@Headers() headers: any) {
+    return this.moviesProxyService.getMoviesHealth(headers);
+  }
+
   @Get('movies')
   async getMovies(@Query() query: any, @Headers() headers: any) {
     return this.moviesProxyService.getMovies(query, headers);
